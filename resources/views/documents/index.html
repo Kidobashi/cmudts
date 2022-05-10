@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>Generate Test</title>
+    </head>
+        <body>
+            <form method="POST" action="#">
+                @csrf
+                <!-- Name -->
+        
+                    <div>
+                        <x-label for="referenceNo" :value="__('Reference No.:')" />
+                        <input id="referenceNo" class="block mt-1 w-full" type="text" name="referenceNo" :value="old('referenceNo')" value="{{ $refNo }}" readonly/>
+                    </div>
+        
+                    <div>
+                        <label for="sender_name" :value="__('Sender')" />
+                        <input id="sender_name" class="block mt-1 w-full" type="text" name="sender_name" :value="old('sender_name')" onchange="generateQR()" required autofocus />
+                    </div>
+        
+                    <div>
+                        <x-label for="recv_name" :value="__('Receiver')" />
+                        <x-input id="recv_name" class="block mt-1 w-full" type="text" name="recv_name" :value="old('recv_name')" required autofocus />
+                    </div>
+                
+                    <div>
+                    <x-label for="from_office" :value="__('From Office')" />
+                        <select id="from_office" name="from_office" class="block mt-1 w-full">
+                            <option value="old(from_office)" selected disabled>Select Office
+                                @foreach ($officeName as $row)
+                                <option value="{{ $row->id }}">{{ $row->officeName }}</option>
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+        
+                    <div>
+                        <x-label for="to_office" :value="__('To Office')" />
+                            <select id = "to_office" name="to_office" class="block mt-1 w-full">
+                            <option value="old(to_office)" selected disabled>Select Office
+                                @foreach ($officeName as $row)
+                               <option value="{{ $row->id }}">{{ $row->officeName }}</option>
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+        
+                    <div id="qrcode"></div>
+        
+                    <button>Submit</button>
+                    <!--<x-button class="ml-4">
+                        Generate QR
+                    </x-button>-->
+            </form>
+                
+            
+            </body>
+
+    <script src="qrcode.js"></script>
+    <script>
+        var qrdata = document.getElementById('sender_name');
+        var qrcode = new QRCode(document.getElementById('qrcode'));
+
+        function generateQR()
+        {
+            var data = qrdata.value;
+
+            qrcode.makeCode(data);
+        }
+    </script>
+</html>
