@@ -65,4 +65,6 @@ Route::get('/home', [App\Http\Controllers\DocumentIdentifierController::class, '
 Route::get('/home', [App\Http\Controllers\DocumentController::class, 'index']);
 
 Route::get('show', 'App\Http\Controllers\UserProfileController@show');
+
+Route::get('/qrinfo/{referenceNo}', [App\Http\Controllers\QrInfoController::class, 'selectRefNo']);
 //Auth::routes();

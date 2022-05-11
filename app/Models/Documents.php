@@ -10,6 +10,7 @@ class Documents extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'sender_name',
         'recv_name',
         'from_office',

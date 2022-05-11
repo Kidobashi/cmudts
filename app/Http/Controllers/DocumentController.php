@@ -21,15 +21,7 @@ class DocumentController extends Controller
         ->where('documents.sender_name', Auth::user()->email)
         ->distinct()
         ->get()->toArray();
-        // $scod = DB::table('documents')
-        //->join('offices', 'to_office', 'offices.id')
-        //->where('documents.sender_name', Auth::user()->email)
-        //>get()->toArray();
-        //$off = array_merge_recursive_distinct($docs, $scod);
-        //echo "<pre>";
-        //print_r($docs);
-        #print_r($scod);
-        //dd(Office::all());
+        
         return view ('home', ['docs' => $docs]);
         #return view ('home', compact('docs'));
     }
