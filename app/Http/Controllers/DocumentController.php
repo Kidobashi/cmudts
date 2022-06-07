@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 
 class DocumentController extends Controller
-{  
+{
     //
     //Show office names
     public function index()
@@ -21,7 +21,7 @@ class DocumentController extends Controller
         ->where('documents.sender_name', Auth::user()->email)
         ->distinct()
         ->get()->toArray();
-        
+
         return view ('home', ['docs' => $docs]);
         #return view ('home', compact('docs'));
     }
@@ -38,6 +38,14 @@ class DocumentController extends Controller
     {
         $sender = Auth::user()->email;
 
+        $last = DB::table('documents')->latest('id')->first();
+
+        $identity = $last->id + 1;
+        $number = sprintf('%04d', $identity);
+        $prefix = strval(strftime("%Y"));
+        $stringVal = strval($number);
+        $refNo = "$prefix$stringVal";
+
         $office->validate([
             'sender_name' => 'required',
             'recv_name' => 'required',
@@ -50,7 +58,7 @@ class DocumentController extends Controller
             'recv_name' => request('recv_name'),
             'from_office' => request('from_office'),
             'to_office' => request('to_office'),
-            'referenceNo' => request('referenceNo'),
+            'referenceNo' => $refNo,
         ]);
 
         //redirect with success message
@@ -58,17 +66,17 @@ class DocumentController extends Controller
         return redirect('uploaddoc')->with('message', 'Successfully Added!');
     }
 
-    public function refNumber()
+    public function getRefNumber()
     {
-        $docs = Documents::all();
-        return view('documents.uploaddoc')->with('id', $docs);
-    }
+        $last = DB::table('documents')->latest('id')->first();
 
-    public function getRefNumber(Documents $docs)
-    {
-        Documents::create([
-            'reference_no' => $docs->id,
-        ]);
+        $identity = $last->id + 1;
+        $number = sprintf('%04d', $identity);
+        $prefix = strval(strftime("%Y"));
+        $stringVal = strval($number);
+        $refNo = "$prefix$stringVal";
+
+        return view('documents.uploaddoc')->with('refNo', $refNo);
     }
 
     public function edit($id)
@@ -77,7 +85,7 @@ class DocumentController extends Controller
         $docs = Documents::where('id', '!=', 1)->get();
         $assignedEm =  Documents::find($docs->id)
                                 ->where('id', '!=', 1)->get();
-                                
+
         return view('uploaddoc.edit', compact('docs'))->with(compact('assignedEm'));
     }
 }

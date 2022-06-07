@@ -37,10 +37,11 @@ Route::post('/auth.register', 'App\Http\Controllers\UserOfficeController@store')
 
 //Route::post('/posts', 'App\Http\Controllers\UserOfficeController@index');
 
-Route::get('/uploaddoc', 'App\Http\Controllers\DocumentController@selectOffice');
+
 Route::post('/uploaddoc', 'App\Http\Controllers\DocumentController@store');
-Route::get('/uploaddoc/edit/{id}', 'App\Http\Controllers\DocumentController@refNumber');
-Route::put('/uploaddoc', 'App\Http\Controllers\DocumentController@getRefNumber');
+// Route::get('/uploaddoc/edit/{id}', 'App\Http\Controllers\DocumentController@refNumber');
+Route::get('uploaddoc', 'App\Http\Controllers\DocumentController@getRefNumber')->name('refNo');
+Route::get('uploaddoc', 'App\Http\Controllers\DocumentController@selectOffice');
 #Route::post('/uploaddoc', 'App\Http\Controllers\DocumentIdentifierController@docSender');
 #Route::put('/uploaddoc', 'App\Http\Controllers\DocumentIdentifierController@docSender');
 #Route::get('/uploaddoc', 'App\Http\Controllers\DocumentIdentifierController@getDocSender');

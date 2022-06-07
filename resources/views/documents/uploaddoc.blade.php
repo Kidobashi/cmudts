@@ -20,7 +20,7 @@
 <html>
     <head>
     <!-- Scripts -->
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- Styles -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,14 +33,14 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header" href={{url('home')}}>{{ __('Add Document') }}</div>
-                    <form method="POST" action="uploaddoc/{{$refNo}}">
+                    <form method="POST" action="uploaddoc">
                         @csrf
                         <!-- Name -->
                             <div>
                                 <x-label for="referenceNo" :value="__('Reference No.:')" />
-                                <input id="referenceNo" class="block mt-1 w-full" type="type " name="referenceNo" :value="old('referenceNo')" value="{{ $refNo }}" readonly/>
+                                <input id="referenceNo" class="block mt-1 w-full" type="hidden" name="referenceNo" :value="old('referenceNo')" value="{{ $refNo }}"/>
                             </div>
-                            
+
                             <div>
                                 <x-label for="from_office" :value="__('From Office')" />
                                     <select id="from_office" name="from_office" class="block mt-1 w-full">
@@ -57,8 +57,8 @@
                                         </div>
                                         @enderror
                                 </div>
-                                
-                    
+
+
                             <div>
                                 <x-label for="to_office" :value="__('To Office')" />
                                     <select id = "to_office" name="to_office" class="block mt-1 w-full">
@@ -75,7 +75,7 @@
                                         </div>
                                         @enderror
                             </div>
-                
+
                             <div>
                                 <x-label for="sender_name" :value="__('Sender')" />
                                 <input id="sender_name" class="block mt-1 w-full" type="text" name="sender_name" :value="old('sender_name')" value="{{ auth()->user()->email }}" readonly/>
@@ -86,7 +86,7 @@
                                 </div>
                                 @enderror
                             </div>
-                
+
                             <div>
                                 <x-label for="recv_name" :value="__('Receiver')" />
                                 <x-input id="recv_name" class="block mt-1 w-full" type="text" name="recv_name" :value="old('recv_name')"/>
@@ -97,18 +97,18 @@
                                 </div>
                                 @enderror
                             </div>
-                
+
                             <div id="placeHolder" width="300px" height="300px">
-                
+
                             </div>
-                            
-                
+
+
                             <input id="genBtn" type="submit" value="Submit" onclick=alertMsg()>
-                
+
                             @if(session('message'))
                                 <div class="alert alert-success">{{session('message')}}</div>
                             @endif
-                                
+
                             </div>
                     </form>
                         {{ __('Add Document Page!') }}
@@ -116,10 +116,16 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </body>
 
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        function updateDiv()
+        {
+            $( "#referenceNo" ).load(window.location.href + " #referenceNo" );
+        }
+    </script>
     <script src="{{ asset('js/qrcode.js')}} "></script>
     <script>
 
@@ -132,5 +138,6 @@
         document.getElementById('placeHolder').innerHTML = qr.createImgTag();
 
     </script>
+
 </html>
 @endsection

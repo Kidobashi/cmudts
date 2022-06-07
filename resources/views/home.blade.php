@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-header" href={{url('home')}}>{{ __('Dashboard') }}</div>
 
-                    {{ __('Welcome ' ) }}    {{ auth()->user()->name }} {{ __('!' ) }} 
+                    {{ __('Welcome ' ) }}    {{ auth()->user()->name }} {{ __('!' ) }}
                 </div>
             </div>
         </div>
@@ -24,6 +24,7 @@
             <th>Receiver</th>
             <th>Destination Office</th>
             <th>Date Created</th>
+            <th>Info</th>
         </thead>
         <tbody>
             @foreach ($docs as $doc)
@@ -35,10 +36,13 @@
                         {{ $doc->recv_name }}
                     </td>
                     <td>
-                        {{ $doc->officeName }} 
+                        {{ $doc->officeName }}
                     </td>
                     <td>
                         {{ $doc->created_at }}
+                    </td>
+                    <td>
+                        <a href="{{ url('qrinfo', $doc->referenceNo)}}">Show Info</a>
                     </td>
                 </tr>
             @endforeach
